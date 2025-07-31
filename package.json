@@ -1,0 +1,20 @@
+{
+  "name": "project-jin",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "npm run build:shared && concurrently \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
+    "build:shared": "npm run build --workspace=shared",
+    "build": "npm run build:shared && npm run build --workspace=server && npm run build --workspace=client",
+    "test": "npm test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
