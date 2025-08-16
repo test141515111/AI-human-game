@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
+import { TutorialTab } from '../components/TutorialTab';
 
 export function HomePage() {
   const navigate = useNavigate();
   const [isCreating, setIsCreating] = useState(false);
   const [gameId, setGameId] = useState('');
   const [playerName, setPlayerName] = useState('');
+  const [isTutorialTabOpen, setIsTutorialTabOpen] = useState(false);
 
   const createGame = async () => {
     if (!playerName.trim()) {
@@ -34,11 +36,26 @@ export function HomePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 relative">
+      {/* Tutorial Button - Fixed Position */}
+      <button
+        onClick={() => setIsTutorialTabOpen(true)}
+        className="fixed top-4 right-4 z-10 flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200 shadow-lg tutorial-button"
+        title="チュートリアルを開く"
+      >
+        <span className="mr-2">📚</span>
+        <span className="hidden sm:inline">チュートリアル</span>
+      </button>
+
       <div className="max-w-md w-full space-y-8">
         <div>
           <h1 className="text-4xl font-bold text-center mb-2">Project JIN</h1>
           <p className="text-center text-gray-400">最後に信じるのは、人間の直感か、AIの論理か。</p>
+          <div className="text-center mt-4">
+            <p className="text-sm text-gray-500">
+              初めての方は右上の「チュートリアル」をご確認ください
+            </p>
+          </div>
         </div>
 
         <div className="bg-gray-800 p-6 rounded-lg space-y-6">
@@ -89,6 +106,12 @@ export function HomePage() {
           </div>
         </div>
       </div>
+
+      {/* Tutorial Tab */}
+      <TutorialTab 
+        isOpen={isTutorialTabOpen} 
+        onClose={() => setIsTutorialTabOpen(false)} 
+      />
     </div>
   );
 }
